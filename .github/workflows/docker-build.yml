@@ -53,4 +53,4 @@ jobs:
           tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-template-${{ matrix.base.name }}:${{ matrix.base.tag }}
           platforms: linux/amd64
           build-args: |
-            DISTRO_TAG=${{ matrix.tag }}
+            DISTRO_TAG=${{ matrix.base.tag }}
