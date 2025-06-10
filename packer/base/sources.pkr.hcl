@@ -10,8 +10,8 @@ source "yandex" "workspace" {
 }
 
 source "docker" "workspace" {
-  pull   = false
   commit = true
 
+  pull  = var.docker.source_image_pull
   image = var.docker.source_image
 }

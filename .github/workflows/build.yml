@@ -15,22 +15,17 @@ env:
   DOCKER_USERNAME: ${{ github.actor }}
   DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
-docker-distro-matrix: &docker-distro-matrix
-  - name: archlinux
-    tag: base
-  - name: debian
-    tag: bookworm-slim
-
-packer-variant-matrix: &packer-variant-matrix
-  - base
-
 jobs:
   build-docker:
     runs-on: ubuntu-latest
 
     strategy:
-      matrix: 
-        distro: *docker-distro-matrix
+      matrix:
+        distro:
+          - name: archlinux
+            tag: base
+          - name: debian
+            tag: bookworm-slim
 
     permissions:
       contents: read
@@ -59,12 +54,10 @@ jobs:
         with:
           push: true
           file: ./docker/Dockerfile.${{ matrix.distro.name }}
-          tags:
-            - ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-template-${{ matrix.distro.name }}:${{ matrix.distro.tag }}
-          platforms:
-            - linux/amd64
-          build-args:
-            - DISTRO_TAG=${{ matrix.distro.tag }}
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-template-${{ matrix.distro.name }}:${{ matrix.distro.tag }}
+          platforms: linux/amd64
+          build-args: |
+            DISTRO_TAG=${{ matrix.distro.tag }}
 
   build-packer-docker:
     needs: build-docker
@@ -72,8 +65,13 @@ jobs:
 
     strategy:
       matrix:
-        distro: *docker-distro-matrix
-        variant: *packer-variant-matrix
+        distro:
+          - name: archlinux
+            tag: base
+          - name: debian
+            tag: bookworm-slim
+        variant:
+          - base
 
     permissions:
       contents: read
@@ -109,7 +107,8 @@ jobs:
         run: |
           printf '%s\n' '{
             "docker": {
-              "source_image": "${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-workspace-${{ matrix.distro.name }}:${{ matrix.distro.tag }}",
+              "source_image": "${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-template-${{ matrix.distro.name }}:${{ matrix.distro.tag }}",
+              "source_image_pull": true,
               "result_image_tags": ["${{ matrix.distro.tag }}"],
               "result_image_repository": "${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-workspace-${{ matrix.distro.name }}-${{ matrix.variant }}"
             }
