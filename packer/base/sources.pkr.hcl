@@ -8,3 +8,10 @@ source "yandex" "workspace" {
   image_family        = var.yandex.result_image_family
   source_image_family = var.yandex.source_image_family
 }
+
+source "docker" "workspace" {
+  pull   = false
+  commit = true
+
+  image = var.docker.source_image
+}
