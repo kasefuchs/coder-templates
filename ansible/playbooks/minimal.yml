@@ -1,0 +1,6 @@
+---
+- name: Setup minimal Coder Workspace
+  hosts: all
+  become: true
+  roles:
+    - supervisor

@@ -1,0 +1,6 @@
+---
+# Version of Supervisor to download. Can be a specific version (e.g., "4.2.5") or "latest".
+supervisor_download_version: latest
+
+# Package name for Supervisor.
+supervisor_download_package: supervisor

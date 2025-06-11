@@ -12,6 +12,8 @@ source "yandex" "workspace" {
 source "docker" "workspace" {
   commit = true
 
-  pull  = var.docker.source_image_pull
-  image = var.docker.source_image
+  build {
+    path      = var.docker.source_image_build.path
+    arguments = var.docker.source_image_build.arguments
+  }
 }

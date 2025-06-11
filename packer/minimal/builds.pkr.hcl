@@ -2,7 +2,7 @@ build {
   sources = ["source.yandex.workspace", "source.docker.workspace"]
 
   provisioner "ansible" {
-    playbook_file    = "${local.ansible_directory}/playbooks/base.yml"
+    playbook_file    = "${local.ansible_directory}/playbooks/minimal.yml"
     ansible_env_vars = ["ANSIBLE_CONFIG=${local.ansible_directory}/ansible.cfg"]
   }
 

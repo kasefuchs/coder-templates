@@ -12,3 +12,6 @@ inventories/
 
 # Dotenv
 .env
+
+# Cache
+**/files/**/download/

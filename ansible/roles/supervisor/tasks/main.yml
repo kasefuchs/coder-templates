@@ -1,0 +1,10 @@
+---
+- name: Download Supervisor
+  tags: download
+  ansible.builtin.include_tasks:
+    file: download.yml
+    apply:
+      tags: download
+      become: false
+      run_once: true
+      delegate_to: localhost

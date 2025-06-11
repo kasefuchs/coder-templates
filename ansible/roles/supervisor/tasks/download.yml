@@ -1,0 +1,38 @@
+---
+- name: Get latest Supervisor version
+  when: supervisor_download_version == "latest"
+  block:
+    - name: Fetch Supervisor PyPi package info
+      register: supervisor_download_package_info
+      ansible.builtin.uri:
+        url: https://pypi.org/pypi/{{ supervisor_download_package }}/json
+        status_code: 200
+        return_content: true
+
+    - name: Set Supervisor download version fact
+      ansible.builtin.set_fact:
+        supervisor_download_version: "{{ supervisor_download_package_info.json.info.version }}"
+
+- name: Link current version directory
+  block:
+    - name: Create version directory
+      ansible.builtin.file:
+        path: "{{ (supervisor_download_local_dir, supervisor_download_version) | ansible.builtin.path_join }}"
+        mode: "0755"
+        state: directory
+
+    - name: Link current version directory
+      ansible.builtin.file:
+        src: "{{ (supervisor_download_local_dir, supervisor_download_version) | ansible.builtin.path_join }}"
+        dest: "{{ supervisor_download_current_local_dir_link }}"
+        state: link
+
+- name: Download Supervisor binaries
+  ansible.builtin.command:
+    argv:
+      - pip3
+      - download
+      - --no-deps
+      - "--only-binary=:all:"
+      - "--dest={{ supervisor_download_current_local_dir_link }}"
+      - "{{ supervisor_download_package }}=={{ supervisor_download_version }}"

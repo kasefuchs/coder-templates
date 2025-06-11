@@ -1,0 +1,6 @@
+---
+# Directory path where specific versions of Supervisor will be downloaded.
+supervisor_download_local_dir: "{{ role_path }}/../supervisor/files/download/"
+
+# Symlink path pointing to the currently used Supervisor version.
+supervisor_download_current_local_dir_link: "{{ (supervisor_download_local_dir, 'current') | ansible.builtin.path_join }}"

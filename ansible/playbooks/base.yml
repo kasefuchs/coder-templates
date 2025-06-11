@@ -1,5 +1,0 @@
----
-- name: Setup base Coder Workspace
-  hosts: all
-  become: true
-  tasks: []

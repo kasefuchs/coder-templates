@@ -1,11 +1,12 @@
 ---
-name: Build Images
+name: Build Packer Images
 
 on:
   push:
     paths:
       - docker/*
       - packer/**/*
+      - ansible/**/*
       - .github/workflows/build.yml
 
   workflow_dispatch: {}
@@ -26,52 +27,8 @@ jobs:
             tag: base
           - name: debian
             tag: bookworm-slim
-
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.DOCKER_REGISTRY }}
-          username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ env.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          file: ./docker/Dockerfile.${{ matrix.distro.name }}
-          tags: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-template-${{ matrix.distro.name }}:${{ matrix.distro.tag }}
-          platforms: linux/amd64
-          build-args: |
-            DISTRO_TAG=${{ matrix.distro.tag }}
-
-  build-packer-docker:
-    needs: build-docker
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        distro:
-          - name: archlinux
-            tag: base
-          - name: debian
-            tag: bookworm-slim
         variant:
-          - base
+          - minimal
 
     permissions:
       contents: read
@@ -100,8 +57,12 @@ jobs:
         run: |
           printf '%s\n' '{
             "docker": {
-              "source_image": "${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-template-${{ matrix.distro.name }}:${{ matrix.distro.tag }}",
-              "source_image_pull": true,
+              "source_image_build":  {
+                "path": "../../docker/Dockerfile.${{ matrix.distro.name }}",
+                "arguments": {
+                  "DISTRO_TAG": "${{ matrix.distro.tag }}"
+                }
+              },
               "result_image_tags": ["${{ matrix.distro.tag }}"],
               "result_image_repository": "${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-workspace-${{ matrix.distro.name }}-${{ matrix.variant }}"
             },

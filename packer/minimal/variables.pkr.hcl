@@ -20,17 +20,21 @@ variable "yandex" {
 
 variable "docker" {
   type = object({
-    source_image            = string
-    source_image_pull       = bool
+    source_image_build = object({
+      path      = string
+      arguments = map(string)
+    })
     result_image_tags       = list(string)
     result_image_repository = string
   })
 
   default = {
-    source_image            = "ghcr.io/kasefuchs/coder-template-archlinux:base"
-    source_image_pull       = true
-    result_image_tags       = ["latest"]
-    result_image_repository = "ghcr.io/kasefuchs/coder-workspace-archlinux"
+    source_image_build = {
+      path      = "../../docker/Dockerfile.archlinux"
+      arguments = { "DISTRO_TAG" : "base" }
+    }
+    result_image_tags       = ["base"]
+    result_image_repository = "ghcr.io/kasefuchs/coder-workspace-archlinux-minimal"
   }
 }
 
