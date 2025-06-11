@@ -16,6 +16,11 @@ build {
 
     post-processor "docker-push" {
       only = ["docker.workspace"]
+
+      login          = var.docker_login != null
+      login_server   = var.docker_login != null ? var.docker_login.server : ""
+      login_username = var.docker_login != null ? var.docker_login.username : ""
+      login_password = var.docker_login != null ? var.docker_login.password : ""
     }
   }
 }

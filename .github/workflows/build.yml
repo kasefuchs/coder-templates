@@ -82,18 +82,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Packer
-        uses: hashicorp/setup-packer@main
-
       - name: Set up Python
         uses: actions/setup-python@v5
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.DOCKER_REGISTRY }}
-          username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ env.DOCKER_PASSWORD }}
+      - name: Set up Packer
+        uses: hashicorp/setup-packer@main
 
       - name: Install Python modules
         run: pip install -r requirements.txt
@@ -111,6 +104,11 @@ jobs:
               "source_image_pull": true,
               "result_image_tags": ["${{ matrix.distro.tag }}"],
               "result_image_repository": "${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/coder-workspace-${{ matrix.distro.name }}-${{ matrix.variant }}"
+            },
+            "docker_login": {
+              "server": "${{ env.DOCKER_REGISTRY }}",
+              "username": "${{ env.DOCKER_USERNAME }}",
+              "password": "${{ env.DOCKER_PASSWORD }}"
             }
           }' > docker.pkrvars.json
         working-directory: packer/${{ matrix.variant }}/

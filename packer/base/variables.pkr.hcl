@@ -33,3 +33,14 @@ variable "docker" {
     result_image_repository = "ghcr.io/kasefuchs/coder-workspace-archlinux"
   }
 }
+
+variable "docker_login" {
+  type = object({
+    server   = string
+    username = string
+    password = string
+  })
+
+  default   = null
+  sensitive = true
+}
