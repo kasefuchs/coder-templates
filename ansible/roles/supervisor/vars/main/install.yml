@@ -1,0 +1,3 @@
+---
+# The directory where Supervisor is installed.
+supervisor_install_dir: /opt/venvs/supervisor

@@ -27,7 +27,9 @@
         dest: "{{ supervisor_download_current_local_dir_link }}"
         state: link
 
-- name: Download Supervisor binaries
+- name: Download Supervisor package
+  register: supervisor_download_result
+  changed_when: supervisor_download_result.stdout is not contains("File was already downloaded")
   ansible.builtin.command:
     argv:
       - pip3

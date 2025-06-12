@@ -5,8 +5,8 @@ on:
   push:
     paths:
       - docker/*
-      - packer/**/*
-      - ansible/**/*
+      - packer/**
+      - ansible/**
       - .github/workflows/build.yml
 
   workflow_dispatch: {}
@@ -15,6 +15,15 @@ env:
   DOCKER_REGISTRY: ghcr.io
   DOCKER_USERNAME: ${{ github.actor }}
   DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+concurrency:
+  group: "${{ github.workflow }}"
+  cancel-in-progress: true
 
 jobs:
   build-docker:
@@ -29,11 +38,6 @@ jobs:
             tag: bookworm-slim
         variant:
           - minimal
-
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
 
     steps:
       - name: Checkout repository

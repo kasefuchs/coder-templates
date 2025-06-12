@@ -1,0 +1,24 @@
+---
+# The root directory where Supervisor configuration files are stored.
+supervisor_config_dir: /etc/supervisor
+
+# The path to the file where Supervisor configuration stored.
+supervisor_config_file: "{{ (supervisor_config_dir, 'supervisord.conf') | ansible.builtin.path_join }}"
+
+# The directory where Supervisor stores its log files.
+supervisor_config_log_dir: /var/log/supervisor
+
+# The path to the log file used by Supervisor to store runtime logs.
+supervisor_config_log_file: "{{ (supervisor_config_log_dir, 'supervisor.log') | ansible.builtin.path_join }}"
+
+# The directory where individual program configuration files are stored.
+supervisor_config_include_dir: "{{ (supervisor_config_dir, 'conf.d') | ansible.builtin.path_join }}"
+
+# The glob pattern used to include all program configuration files from the include directory.
+supervisor_config_include_glob: "{{ (supervisor_config_include_dir, '*.conf') | ansible.builtin.path_join }}"
+
+# The path to the PID file where Supervisor stores its process ID.
+supervisor_config_pid_file: /var/run/supervisor.pid
+
+# The path to the Unix socket used by Supervisor for internal communication.
+supervisor_config_unix_socket: /var/run/supervisor.sock

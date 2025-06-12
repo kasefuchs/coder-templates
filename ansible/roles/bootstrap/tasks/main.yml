@@ -1,0 +1,7 @@
+---
+- name: Bootstrap packages
+  tags: package
+  ansible.builtin.include_tasks:
+    file: package.yml
+    apply:
+      tags: package

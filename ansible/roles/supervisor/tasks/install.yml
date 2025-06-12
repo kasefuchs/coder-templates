@@ -1,0 +1,30 @@
+---
+- name: Find Supervisor package file
+  become: false
+  run_once: true
+  register: supervisor_install_find
+  delegate_to: localhost
+  ansible.builtin.find: 
+    paths: "{{ supervisor_download_current_local_dir_link }}"
+    patterns: "*.whl"
+
+- name: Create temporary Supervisor package directory
+  register: supervisor_install_tempfile
+  ansible.builtin.tempfile:
+    state: directory
+
+- name: Copy Supervisor package
+  ansible.builtin.copy:
+    src: "{{ supervisor_install_find.files[0].path }}"
+    dest: "{{ supervisor_install_tempfile.path }}"
+
+- name: Install Supervisor package
+  ansible.builtin.pip:
+    name: "{{ (supervisor_install_tempfile.path, (supervisor_install_find.files[0].path | ansible.builtin.basename)) | ansible.builtin.path_join }}"
+    virtualenv: "{{ supervisor_install_dir }}"
+    virtualenv_command: "{{ ansible_python.executable }} -m venv"
+
+- name: Delete temporary Supervisor package directory
+  ansible.builtin.file:
+    path: "{{ supervisor_install_tempfile.path }}"
+    state: absent

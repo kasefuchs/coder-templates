@@ -1,0 +1,3 @@
+---
+# The maximum size of the Supervisor log file before it gets rotated.
+supervisor_config_log_max_bytes: 5MB

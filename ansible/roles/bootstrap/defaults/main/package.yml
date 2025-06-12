@@ -1,0 +1,16 @@
+---
+# Whether to update the package manager's cache during bootstrapping.
+bootstrap_package_update_cache: true
+
+# Whether to remove the package manager's cache after installation is complete.
+bootstrap_package_remove_cache: true
+
+# A mapping of OS distributions to the list of packages to install during bootstrapping.
+bootstrap_package_distribution_install:
+  archlinux: # Packages specific to Arch Linux.
+
+  debian: # Packages specific to Debian.
+    - python3-venv
+
+# The list of packages to install for the current OS, selected from the distribution map.
+bootstrap_package_install: "{{ bootstrap_package_distribution_install[ansible_distribution | lower | replace(' ', '')] }}"

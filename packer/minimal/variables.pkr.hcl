@@ -30,11 +30,11 @@ variable "docker" {
 
   default = {
     source_image_build = {
-      path      = "../../docker/Dockerfile.archlinux"
-      arguments = { "DISTRO_TAG" : "base" }
+      path      = "../../docker/Dockerfile.debian"
+      arguments = { "DISTRO_TAG" : "bookworm-slim" }
     }
-    result_image_tags       = ["base"]
-    result_image_repository = "ghcr.io/kasefuchs/coder-workspace-archlinux-minimal"
+    result_image_tags       = ["bookworm-slim"]
+    result_image_repository = "ghcr.io/kasefuchs/coder-workspace-debian-minimal"
   }
 }
 
