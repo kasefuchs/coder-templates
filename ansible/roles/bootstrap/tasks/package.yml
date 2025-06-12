@@ -12,8 +12,10 @@
   block:
     - name: Remove APT package cache
       when: ansible_pkg_mgr == "apt"
-      ansible.builtin.command: apt-get clean --assume-yes
+      ansible.builtin.apt:
+        clean: true
 
     - name: Remove PacMan package cache
       when: ansible_pkg_mgr == "pacman"
+      changed_when: false
       ansible.builtin.command: pacman -Scc --noconfirm

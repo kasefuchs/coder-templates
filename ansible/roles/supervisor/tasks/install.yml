@@ -4,7 +4,7 @@
   run_once: true
   register: supervisor_install_find
   delegate_to: localhost
-  ansible.builtin.find: 
+  ansible.builtin.find:
     paths: "{{ supervisor_download_current_local_dir_link }}"
     patterns: "*.whl"
 
@@ -17,6 +17,7 @@
   ansible.builtin.copy:
     src: "{{ supervisor_install_find.files[0].path }}"
     dest: "{{ supervisor_install_tempfile.path }}"
+    mode: "0755"
 
 - name: Install Supervisor package
   ansible.builtin.pip:
