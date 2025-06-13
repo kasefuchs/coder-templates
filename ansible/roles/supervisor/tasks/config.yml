@@ -25,6 +25,7 @@
     group: root
 
 - name: Install Supervisor service
+  when: ansible_virtualization_type not in ["docker"]
   block:
     - name: Install Supervisor Systemd service
       when: ansible_service_mgr == "systemd"
