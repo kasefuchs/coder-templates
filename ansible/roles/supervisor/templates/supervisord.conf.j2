@@ -1,4 +1,4 @@
-{{ ansible_managed | ansible.builtin.comment('plain', decoration='; ') }}
+{{ ansible_managed | ansible.builtin.comment(decoration='; ') }}
 
 [supervisord]
 logfile={{ supervisor_config_log_file }}

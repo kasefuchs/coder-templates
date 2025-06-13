@@ -1,7 +1,7 @@
-{{ ansible_managed | ansible.builtin.comment('plain', decoration='; ') }}
+{{ ansible_managed | ansible.builtin.comment(decoration='; ') }}
 
 [program:coder]
-command=/bin/sh -c '. {{ coder_config_file }} && exec {{ coder_install_binary_file }} agent'
+command=/bin/sh -c '. {{ coder_config_file }} && exec {{ coder_install_binary }} agent'
 priority=5
 process_name=%(program_name)s
 environment=CODER_AGENT_AUTH="token"

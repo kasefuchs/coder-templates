@@ -22,3 +22,9 @@ supervisor_config_pid_file: /var/run/supervisor.pid
 
 # The path to the Unix socket used by Supervisor for internal communication.
 supervisor_config_unix_socket: /var/run/supervisor.sock
+
+# The path to the binary of Supervisor daemon.
+supervisor_config_service_daemon_binary: "{{ (supervisor_install_dir, 'bin', 'supervisord') | ansible.builtin.path_join }}"
+
+# The path to the binary of Supervisor control.
+supervisor_config_service_control_binary: "{{ (supervisor_install_dir, 'bin', 'supervisorctl') | ansible.builtin.path_join }}"

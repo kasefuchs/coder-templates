@@ -1,0 +1,14 @@
+{{ ansible_managed | ansible.builtin.comment }}
+
+[Unit]
+Description=Supervisor: Process Monitoring and Control Daemon
+Documentation=http://supervisord.org
+After=network.target
+
+[Service]
+ExecStart={{ supervisor_config_service_daemon_binary }} -c {{ supervisor_config_file }}
+ExecStop={{ supervisor_config_service_control_binary }} -c {{ supervisor_config_file }} shutdown
+ExecReload={{ supervisor_config_service_control_binary }} -c {{ supervisor_config_file }} reload
+
+[Install]
+WantedBy=multi-user.target
