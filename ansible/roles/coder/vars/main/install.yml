@@ -1,0 +1,6 @@
+---
+# Local path to the downloaded Coder binary for the current architecture.
+coder_install_binary_local_file: "{{ (coder_download_local_dir, ansible_architecture) | ansible.builtin.path_join }}"
+
+# Destination path on the target system where the Coder binary will be installed.
+coder_install_binary_file: /usr/local/bin/coder

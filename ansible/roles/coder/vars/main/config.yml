@@ -1,0 +1,6 @@
+---
+# The root directory where Coder configuration files are stored.
+coder_config_dir: /etc/coder
+
+# The path to the file where Coder configuration stored.
+coder_config_file: "{{ (coder_config_dir, 'coder.env') | ansible.builtin.path_join }}"

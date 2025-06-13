@@ -1,0 +1,8 @@
+---
+- name: Copy Coder binary
+  ansible.builtin.copy:
+    src: "{{ coder_install_binary_local_file }}"
+    dest: "{{ coder_install_binary_file }}"
+    mode: "0755"
+    owner: root
+    group: root

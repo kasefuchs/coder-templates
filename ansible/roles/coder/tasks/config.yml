@@ -1,0 +1,23 @@
+---
+- name: Create Coder directories
+  loop:
+    - path: "{{ coder_config_dir }}"
+      mode: "0755"
+  loop_control:
+    label: "{{ item.path }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: Include Supervisor config variables
+  run_once: true
+  ansible.builtin.include_vars: "{{ role_path }}/../supervisor/vars/main/config.yml"
+
+- name: Install Coder service
+  ansible.builtin.template:
+    src: coder.conf.j2
+    dest: "{{ (supervisor_config_include_dir, 'coder.conf') | ansible.builtin.path_join }}"
+    mode: "0644"

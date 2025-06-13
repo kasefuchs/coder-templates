@@ -1,0 +1,8 @@
+---
+# Mapping from system architecture to Coder architecture naming.
+coder_download_architecture_map:
+  x86_64: amd64
+  aarch64: arm64
+
+# Directory path where Coder binaries will be downloaded.
+coder_download_local_dir: "{{ role_path }}/../coder/files/download/"

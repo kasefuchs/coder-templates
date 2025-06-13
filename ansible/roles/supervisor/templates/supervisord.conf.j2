@@ -1,3 +1,5 @@
+{{ ansible_managed | ansible.builtin.comment('plain', decoration='; ') }}
+
 [supervisord]
 logfile={{ supervisor_config_log_file }}
 logfile_maxbytes={{ supervisor_config_log_max_bytes }}

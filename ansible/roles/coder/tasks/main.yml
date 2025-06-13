@@ -1,0 +1,24 @@
+---
+- name: Download Coder
+  tags: download
+  ansible.builtin.include_tasks:
+    file: download.yml
+    apply:
+      tags: download
+      become: false
+      run_once: true
+      delegate_to: localhost
+
+- name: Install Coder
+  tags: install
+  ansible.builtin.include_tasks:
+    file: install.yml
+    apply:
+      tags: install
+
+- name: Configure Coder
+  tags: config
+  ansible.builtin.include_tasks:
+    file: config.yml
+    apply:
+      tags: config

@@ -1,0 +1,27 @@
+---
+- name: Create downloads directory
+  ansible.builtin.file:
+    path: "{{ coder_download_local_dir }}"
+    mode: "0755"
+    state: directory
+
+- name: Check if the Coder binaries already downloaded
+  loop: "{{ coder_download_architecture_map.items() }}"
+  register: coder_download_files
+  loop_control:
+    label: "{{ coder_download_architecture[0] }}"
+    loop_var: coder_download_architecture
+  ansible.builtin.stat:
+    path: "{{ (coder_download_local_dir, coder_download_architecture[0]) | ansible.builtin.path_join }}"
+
+- name: Download Coder binaries
+  when: not coder_download_files.results[ansible_loop.index0].stat.exists
+  loop: "{{ coder_download_architecture_map.items() }}"
+  loop_control:
+    label: "{{ coder_download_architecture[0] }}"
+    loop_var: coder_download_architecture
+    extended: true
+  ansible.builtin.get_url:
+    url: "{{ coder_download_url }}"
+    dest: "{{ (coder_download_local_dir, coder_download_architecture[0]) | ansible.builtin.path_join }}"
+    mode: "0644"
