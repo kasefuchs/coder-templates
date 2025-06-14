@@ -1,0 +1,12 @@
+---
+# The primary group assigned to the bootstrap user.
+bootstrap_user_group: coder
+
+# The name of the user to be created during bootstrapping.
+bootstrap_user_name: coder
+
+# The name of the sudoers file to configure sudo privileges for the bootstrap group.
+bootstrap_user_sudoers_file_name: coder
+
+# The home directory path for the bootstrap user.
+bootstrap_user_home_dir: /home/coder

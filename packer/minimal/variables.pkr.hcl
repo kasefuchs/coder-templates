@@ -14,7 +14,7 @@ variable "yandex" {
     disk_size           = 5
     ssh_username        = "debian"
     source_image_family = "debian-12"
-    result_image_family = "coder-base-debian-12"
+    result_image_family = "coder-workspace-minimal-debian-12"
   }
 }
 

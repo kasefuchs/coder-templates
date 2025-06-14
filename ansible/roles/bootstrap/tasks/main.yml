@@ -5,3 +5,10 @@
     file: package.yml
     apply:
       tags: package
+
+- name: Bootstrap user
+  tags: user
+  ansible.builtin.include_tasks:
+    file: user.yml
+    apply:
+      tags: user

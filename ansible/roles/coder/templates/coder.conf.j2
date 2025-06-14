@@ -1,10 +1,11 @@
 {{ ansible_managed | ansible.builtin.comment(decoration='; ') }}
 
 [program:coder]
-command=/bin/sh -c '. {{ coder_config_file }} && exec {{ coder_install_binary }} agent'
+user={{ bootstrap_user_name }}
+command=/bin/sh -c 'set -a && . {{ coder_config_file }} && exec {{ coder_install_binary }} agent'
 priority=5
 process_name=%(program_name)s
-environment=CODER_AGENT_AUTH="token"
+environment=HOME="{{ bootstrap_user_home_dir }}",USER="{{ bootstrap_user_name }}",CODER_AGENT_AUTH="token"
 
 autostart=true
 startsecs=5

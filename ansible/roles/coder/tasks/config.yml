@@ -12,9 +12,16 @@
     owner: root
     group: root
 
-- name: Include Supervisor config variables
+- name: Include variables
+  loop:
+    - name: Supervisor config
+      file: "{{ role_path }}/../supervisor/vars/main/config.yml"
+    - name: Bootstrap user
+      file: "{{ role_path }}/../bootstrap/vars/main/user.yml"
   run_once: true
-  ansible.builtin.include_vars: "{{ role_path }}/../supervisor/vars/main/config.yml"
+  loop_control:
+    label: "{{ item.name }}"
+  ansible.builtin.include_vars: "{{ item.file }}"
 
 - name: Install Coder service
   ansible.builtin.template:
