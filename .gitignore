@@ -15,3 +15,14 @@ inventories/
 
 # Cache
 **/files/**/download/
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+
+# Coder
+.coder/

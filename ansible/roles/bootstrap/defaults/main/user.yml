@@ -1,0 +1,3 @@
+---
+# The shell used by the bootstrap user.
+bootstrap_user_shell: /usr/bin/bash

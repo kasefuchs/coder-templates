@@ -1,0 +1,8 @@
+#cloud-config
+---
+write_files:
+  - path: /etc/coder/coder.env
+    permissions: "0644"
+    content: |
+      CODER_AGENT_URL="${coder_agent_url}"
+      CODER_AGENT_TOKEN="${coder_agent_token}"

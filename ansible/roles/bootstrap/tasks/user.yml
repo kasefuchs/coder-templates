@@ -16,3 +16,4 @@
     name: "{{ bootstrap_user_name }}"
     home: "{{ bootstrap_user_home_dir }}"
     group: "{{ bootstrap_user_group }}"
+    shell: "{{ bootstrap_user_shell }}"
