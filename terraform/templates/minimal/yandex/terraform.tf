@@ -7,5 +7,9 @@ terraform {
     coder = {
       source = "coder/coder"
     }
+
+    cloudinit = {
+      source = "hashicorp/cloudinit"
+    }
   }
 }

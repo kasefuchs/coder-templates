@@ -20,7 +20,7 @@ resource "yandex_compute_disk" "main" {
 resource "yandex_compute_instance" "main" {
   count       = data.coder_workspace.main.start_count
   hostname    = lower(data.coder_workspace.main.name)
-  metadata    = { user-data = local.cloud_init_user_data }
+  metadata    = { user-data = data.cloudinit_config.main.rendered }
   platform_id = data.coder_parameter.platform_id.value
 
   allow_recreate            = true

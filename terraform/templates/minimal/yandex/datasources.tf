@@ -133,6 +133,21 @@ data "coder_parameter" "preemptible" {
   mutable = true
 }
 
+data "cloudinit_config" "main" {
+  gzip          = false
+  base64_encode = false
+
+  part {
+    filename     = "cloud-config.yml"
+    content_type = "text/cloud-config"
+
+    content = templatefile("${path.module}/cloud-init/cloud-config.yml.tftpl", {
+      coder_agent_url   = data.coder_workspace.main.access_url
+      coder_agent_token = coder_agent.main.token
+    })
+  }
+}
+
 data "yandex_client_config" "main" {}
 
 data "yandex_resourcemanager_folder" "main" {
