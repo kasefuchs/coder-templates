@@ -1,6 +1,14 @@
 resource "coder_agent" "main" {
   os   = "linux"
   arch = "amd64"
+
+  display_apps {
+    port_forwarding_helper = true
+    ssh_helper             = true
+    vscode                 = false
+    vscode_insiders        = false
+    web_terminal           = true
+  }
 }
 
 resource "yandex_compute_disk" "main" {

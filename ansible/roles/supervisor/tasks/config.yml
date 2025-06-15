@@ -16,6 +16,15 @@
     owner: root
     group: root
 
+- name: Include variables
+  loop:
+    - name: Bootstrap user
+      file: "{{ role_path }}/../bootstrap/vars/main/user.yml"
+  run_once: true
+  loop_control:
+    label: "{{ item.name }}"
+  ansible.builtin.include_vars: "{{ item.file }}"
+
 - name: Copy Supervisor configuration
   ansible.builtin.template:
     src: supervisord.conf.j2
