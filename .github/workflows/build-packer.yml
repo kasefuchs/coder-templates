@@ -12,6 +12,8 @@ on:
   workflow_dispatch: {}
 
 env:
+  PYTHON_VERSION: "3.13.3"
+  PACKER_VERSION: "1.13.1"
   DOCKER_REGISTRY: ghcr.io
   DOCKER_USERNAME: ${{ github.actor }}
   DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
@@ -45,9 +47,14 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
 
       - name: Set up Packer
         uses: hashicorp/setup-packer@main
+        with:
+          version: ${{ env.PACKER_VERSION }}
 
       - name: Install Python modules
         run: pip install -r requirements.txt

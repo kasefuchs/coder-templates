@@ -9,6 +9,9 @@ on:
 
   workflow_dispatch: {}
 
+env:
+  PYTHON_VERSION: "3.13.3"
+
 permissions:
   contents: read
 
@@ -26,6 +29,9 @@ jobs:
 
       - name: Install Python interpreter
         uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
 
       - name: Install Python modules
         run: pip install -r requirements.txt
