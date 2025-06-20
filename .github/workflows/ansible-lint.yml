@@ -27,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Python interpreter
+      - name: Set up Python interpreter
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
